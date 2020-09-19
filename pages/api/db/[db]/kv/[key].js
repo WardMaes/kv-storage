@@ -50,6 +50,10 @@ export default async function handler(req, res) {
   const client = await connectToDatabase(MONGODB_URI)
   const [db] = await findDb(client, req.query.db)
 
+  if (!db) {
+    return res.json({ error: 'Database does not exist'})
+  }
+
   if (db.secret !== req.headers.authorization) {
     return res.json({ error: 'incorrect api key' })
   }
