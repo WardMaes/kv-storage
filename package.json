@@ -1,11 +1,23 @@
 {
-  "name": "boilerplate",
-  "version": "0.1.0",
-  "private": true,
+  "name": "key-value",
+  "version": "1.0.0",
+  "description": "",
+  "main": "kv.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WardMaes/key-value.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WardMaes/key-value/issues"
+  },
+  "homepage": "https://github.com/WardMaes/key-value#readme",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@xstate/react": "^0.8.1",
