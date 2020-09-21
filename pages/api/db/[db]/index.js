@@ -18,9 +18,10 @@ export default async function handler(req, res) {
   const dbs = await findDb(client, req.query.db)
 
   if (req.method === 'GET') {
-    return dbs && dbs.length
-      ? res.json({ db: req.query.db })
-      : res.json({ error: 'Database not found' })
+    if (dbs && dbs.length && req.headers.authorization === dbs[0].secret) {
+      return res.json({ db: dbs[0] })
+    }
+    return res.json({ error: 'Database not found' })
   }
 
   if (req.method === 'POST') {
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
       const newDb = await addDb(client, req.query.db)
       return res.json(newDb)
     } else {
-      return res.json({ error: 'Database already exists '})
+      return res.json({ error: 'Database already exists ' })
     }
   }
 
@@ -39,7 +40,7 @@ async function addDb(client, name) {
   return new Promise((resolve, reject) => {
     const db = client.db('kv')
     const dbCollection = db.collection('db')
-    const secret =  Math.random().toString(36).substring(2)
+    const secret = Math.random().toString(36).substring(2)
     const added = dbCollection.insertMany([
       {
         name,
@@ -47,7 +48,9 @@ async function addDb(client, name) {
       },
     ])
     resolve({
-      added, name, secret
+      added,
+      name,
+      secret,
     })
   })
 }

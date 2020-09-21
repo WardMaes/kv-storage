@@ -51,7 +51,7 @@ export default async function handler(req, res) {
   const [db] = await findDb(client, req.query.db)
 
   if (!db) {
-    return res.json({ error: 'Database does not exist'})
+    return res.json({ error: 'Database does not exist' })
   }
 
   if (db.secret !== req.headers.authorization) {
@@ -63,7 +63,7 @@ export default async function handler(req, res) {
     if (!record) {
       return res.json({ error: 'no value found for key ' + req.query.key })
     }
-    return res.json(record.value)
+    return res.json({ value: record.value })
   }
 
   if (req.method === 'POST') {
@@ -73,7 +73,7 @@ export default async function handler(req, res) {
       req.query.key,
       req.body.value
     )
-    return res.json(response)
+    return res.json({ value: req.body.value })
   }
 
   return res.json({ error: 'Method not allowed' })
