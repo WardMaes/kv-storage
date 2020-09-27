@@ -21,10 +21,12 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     let authSecret
     // Remove 'Bearer ' from headers
-    if (req.headers.authorization.startsWith('Bearer ')) {
+    if (
+      req.headers.authorization && req.headers.authorization.startsWith('Bearer ')
+    ) {
       authSecret = req.headers.authorization.slice(7)
     } else {
-      authSecret = req.headers.authorization
+      authSecret = req.headers.authorization || ''
     }
     if (dbs && dbs.length && authSecret === dbs[0].secret) {
       return res.json({ db: dbs[0] })
