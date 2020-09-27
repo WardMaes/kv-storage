@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     }
     if (dbs && dbs.length) {
       if (authSecret !== dbs[0].secret) {
-        res.status(401).send({ error: 'Incorrect database secret' })
+        return res.status(401).send({ error: 'Incorrect database secret' })
       }
       return res.json({ db: dbs[0] })
     }
