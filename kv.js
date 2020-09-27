@@ -1,4 +1,4 @@
-const endpoint = process.env.ENDPOINT
+const endpoint = 'https://kv.wardmaes.be/api'
 
 class kv {
   constructor(dbName, dbSecret) {
