@@ -1,23 +1,13 @@
-const MongoClient = require('mongodb').MongoClient
-const MONGODB_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.sn5pt.mongodb.net/kv`
-
-let cachedClient = null
-
-function connectToDatabase(uri) {
-  if (cachedClient) {
-    return Promise.resolve(cachedClient)
-  }
-  return MongoClient.connect(uri).then((db) => {
-    cachedClient = db
-    return cachedClient
-  })
-}
+import { connectToDatabase, MONGODB_URI } from '../index'
 
 async function findDb(client, name) {
   return new Promise((resolve, reject) => {
     const db = client.db('kv')
     const dbCollection = db.collection('db')
     dbCollection.find({ name }).toArray(function (err, docs) {
+      if(err){
+        reject(err)
+      }
       resolve(docs)
     })
   })
@@ -28,6 +18,9 @@ async function getValue(client, dbName, key) {
     const db = client.db('kv')
     const collection = db.collection('kv')
     collection.find({ db: dbName, key }).toArray(function (err, docs) {
+      if(err){
+        reject(err)
+      }
       resolve(docs)
     })
   })
@@ -35,9 +28,7 @@ async function getValue(client, dbName, key) {
 
 async function addKeyValue(client, dbName, key, value) {
   return new Promise((resolve, reject) => {
-    const db = client.db('kv')
-    const collection = db.collection('kv')
-    const added = collection.updateOne(
+    const added = client.db('kv').collection('kv').updateOne(
       { db: dbName, key },
       { $set: { db: dbName, key, value } },
       { upsert: true }
@@ -51,23 +42,27 @@ export default async function handler(req, res) {
   const [db] = await findDb(client, req.query.db)
 
   if (!db) {
-    return res.json({ error: 'Database does not exist' })
+    return res.status(404).send({ error: 'Database does not exist' })
+  }
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).send('')
   }
 
   if (db.secret !== req.headers.authorization) {
-    return res.json({ error: 'incorrect api key' })
+    return res.status(401).send({ error: 'Incorrect API key' })
   }
 
   if (req.method === 'GET') {
     const [record] = await getValue(client, req.query.db, req.query.key)
     if (!record) {
-      return res.json({ error: 'no value found for key ' + req.query.key })
+      return res.status(404).send({ error: 'No value found for key ' + req.query.key })
     }
     return res.json({ value: record.value })
   }
 
   if (req.method === 'POST') {
-    const response = await addKeyValue(
+    await addKeyValue(
       client,
       req.query.db,
       req.query.key,
@@ -76,5 +71,5 @@ export default async function handler(req, res) {
     return res.json({ value: req.body.value })
   }
 
-  return res.json({ error: 'Method not allowed' })
+  return res.status(405).send('Method not allowed')
 }
