@@ -1,6 +1,6 @@
 {
   "name": "@wardmaes/kv",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Key-value storage",
   "main": "kv.js",
   "repository": {
