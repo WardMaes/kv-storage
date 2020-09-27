@@ -2,7 +2,6 @@ module.exports = {
   async headers() {
     return [
       {
-        // mathching all API routes
         source: '/api/:path*',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
@@ -12,7 +11,7 @@ module.exports = {
           },
           {
             key: 'Access-Control-Allow-Methods',
-            value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+            value: 'GET,OPTIONS,POST',
           },
           {
             key: 'Access-Control-Allow-Headers',
