@@ -1,4 +1,4 @@
-const endpoint = 'http://localhost:3000/api'
+const endpoint = process.env.ENDPOINT
 
 class kv {
   constructor(dbName, dbSecret) {
