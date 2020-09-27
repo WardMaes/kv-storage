@@ -1,18 +1,18 @@
 {
-  "name": "key-value",
+  "name": "@wardmaes/kv",
   "version": "1.0.0",
-  "description": "",
+  "description": "Key-value storage",
   "main": "kv.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WardMaes/key-value.git"
+    "url": "git+https://github.com/WardMaes/kv-storage.git"
   },
-  "author": "",
+  "author": "WardMaes",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/WardMaes/key-value/issues"
+    "url": "https://github.com/WardMaes/kv-storage/issues"
   },
-  "homepage": "https://github.com/WardMaes/key-value#readme",
+  "homepage": "https://github.com/WardMaes/kv-storage#readme",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
