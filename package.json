@@ -19,12 +19,11 @@
     "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "next": "9.5.2",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
-  },
-  "devDependencies": {
+    "react-dom": "16.13.1",
     "@types/node": "^14.6.0",
     "@types/react": "^16.9.46",
     "mongodb": "^3.6.2",
