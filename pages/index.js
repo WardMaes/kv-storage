@@ -5,7 +5,6 @@ import Head from 'next/head'
 // TODO: add docs
 
 export default function Home() {
-
   const [dbName, setDbName] = useState('')
   const [secret, setSecret] = useState('')
   const [error, setError] = useState('')
@@ -80,7 +79,8 @@ export default function Home() {
               role="alert"
             >
               <p>
-                Database <span className="italic font-bold">{dbName}</span> created!
+                Database <span className="italic font-bold">{dbName}</span>{' '}
+                created!
               </p>
               <p>
                 Secret: <span className="font-bold italic">{secret}</span>
