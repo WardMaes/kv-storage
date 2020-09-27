@@ -22,13 +22,17 @@ export default async function handler(req, res) {
     let authSecret
     // Remove 'Bearer ' from headers
     if (
-      req.headers.authorization && req.headers.authorization.startsWith('Bearer ')
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer ')
     ) {
       authSecret = req.headers.authorization.slice(7)
     } else {
       authSecret = req.headers.authorization || ''
     }
-    if (dbs && dbs.length && authSecret === dbs[0].secret) {
+    if (dbs && dbs.length) {
+      if (authSecret !== dbs[0].secret) {
+        res.status(401).send({ error: 'Incorrect database secret' })
+      }
       return res.json({ db: dbs[0] })
     }
     return res.status(404).send({ error: 'Database not found' })

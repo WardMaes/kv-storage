@@ -50,7 +50,7 @@ export default async function handler(req, res) {
   }
 
   if (db.secret !== req.headers.authorization) {
-    return res.status(401).send({ error: 'Incorrect API key' })
+    return res.status(401).send({ error: 'Incorrect database secret' })
   }
 
   if (req.method === 'GET') {
