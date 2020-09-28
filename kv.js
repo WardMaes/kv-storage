@@ -1,5 +1,4 @@
-const endpoint = 'https://kv.wardmaes.be/api'
-
+const endpoint = 'https://key-value.vercel.app/api'
 class kv {
   constructor(dbName, dbSecret) {
     if (!dbName || !dbSecret) {
